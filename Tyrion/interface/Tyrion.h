@@ -33,7 +33,8 @@
 //
 // class declaration
 //
-#ifdef TYRION_H
+#ifndef TYRION_H
+#define TYRION_H
 
 class Tyrion : public edm::stream::EDFilter<> {
    public:
