@@ -170,12 +170,15 @@ Tyrion::beginRun(edm::Run const&, edm::EventSetup const&)
 */
  
 // ------------ method called when ending the processing of a run  ------------
-/*
+
 void
 Tyrion::endRun(edm::Run const&, edm::EventSetup const&)
 {
+  std::cout <<"NoCuts 	     = " << Tyrion::NoCuts	<<std::endl;
+  std::cout <<"TriggerPathCut= " << Tyrion::TriggerPathCut<<std::endl;
+  std::cout <<"aJetatLessCut = " << Tyrion::aJetatLessCut <<std::endl;
+  std::cout <<"LeadingMuPtM3 = " << Tyrion::LeadingMuPtM3 <<std::endl;
 }
-*/
  
 // ------------ method called when starting to processes a luminosity block  ------------
 /*
