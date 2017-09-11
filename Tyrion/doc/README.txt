@@ -10,7 +10,7 @@ interface/Tyrion.h		Heder of the src/Tyrion.cc, functions and class
 
 src/Tyrion.cc			Source code, for the filter 
 
-data/filter_defaults.cfi	Default configurations for the filter, can be
+data/filter_defaults_cfi.py	Default configurations for the filter, can be
 				overload in de filter.cfg
 
-test/filter.cfg			cms executable.
+test/filter_cfg.py			cms executable.
