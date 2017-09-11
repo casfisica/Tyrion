@@ -24,11 +24,31 @@
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/stream/EDFilter.h"
 
+#include "FWCore/Utilities/interface/StreamID.h"
+
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "FWCore/Utilities/interface/StreamID.h"
+
+//Need to nkow if some of these are not need
+#include <map>
+#include "FWCore/ServiceRegistry/interface/Service.h"
+
+#include "DataFormats/Math/interface/deltaR.h"
+#include "FWCore/Common/interface/TriggerNames.h"
+#include "DataFormats/Common/interface/TriggerResults.h"
+#include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
+#include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
+
+#include "DataFormats/Common/interface/Handle.h"
+#include "DataFormats/PatCandidates/interface/Muon.h"
+#include "DataFormats/MuonReco/interface/Muon.h"
+#include "DataFormats/PatCandidates/interface/MET.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
+
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+
 
 //
 // class declaration
@@ -38,9 +58,12 @@
 
 class Tyrion : public edm::stream::EDFilter<> {
    public:
+  /// Constructor
       explicit Tyrion(const edm::ParameterSet&);
+  /// Destructor
       ~Tyrion();
 
+  // Operations
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
    private:
@@ -54,6 +77,24 @@ class Tyrion : public edm::stream::EDFilter<> {
       //virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) override;
 
       // ----------member data ---------------------------
+  /*Here declare the tokens*/
+  
+  /*Trigger*/
+  edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
+  edm::EDGetTokenT<pat::TriggerObjectStandAlone> triggerObjects_;
+  edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
+  /**/
+  edm::EDGetTokenT<edm::View<pat::Jet> > tok_jets_;
+  edm::EDGetTokenT<edm::View<pat::MET> >  tok_met_;
+  edm::EDGetTokenT<edm::View<pat::Muon> > tok_muons_;
+
+  //Counters
+  static int NoCuts; 
+  static int TriggerPathCut;
+  static int aJetatLessCut;
+  static int LeadingMuPtM3;
+
+
 };
 
 #endif

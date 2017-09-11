@@ -8,7 +8,7 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 #process.load('VLF_Fill.Tyrion.data.filter_defaults_cfi')
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
 
 process.source = cms.Source("PoolSource",
                             #   replace 'myfile.root' with the source file you want to use
@@ -18,61 +18,36 @@ process.source = cms.Source("PoolSource",
                             )
     
 # loads your EDFilter
-process.Filter = cms.EDFilter('Tyrion')
-
-
-
-# talk to output module
-process.out = cms.OutputModule("PoolOutputModule",
-                               fileName = cms.untracked.string("test2.root")
-                               )
-
-
+process.Filter = cms.EDFilter('Tyrion',
+                              bits = cms.InputTag("TriggerResults","","HLT"),
+                              prescales = cms.InputTag("patTrigger"),
+                              objects = cms.InputTag("selectedPatTrigger"),
+                              obmuon=cms.InputTag("slimmedMuons"),
+                              objet=cms.InputTag("slimmedJets"),
+                              obmet=cms.InputTag("slimmedMETs"),
+                              
+                              )
 
 # Defines which modules and sequences to run
 process.mypath = cms.Path(process.Filter)
 
 
+# talk to output module
+# To output all events
+
+#process.out = cms.OutputModule("PoolOutputModule",
+#                               fileName = cms.untracked.string("test2.root")
+#                               )
+
+#To select only that pass Filter
+process.out = cms.OutputModule("PoolOutputModule",
+        fileName = cms.untracked.string('savep1.root'),
+        SelectEvents = cms.untracked.PSet(
+                SelectEvents = cms.vstring('mypath&noexception')
+                )
+        )
+
 
 # A list of analyzers or output modules to be run after all paths have been run.
 process.outpath = cms.EndPath(process.out)
 
-
-
-
-
-#process F =
-#{
-    
-    #
-    # load input file
-    #
-    
-#    untracked PSet maxEvents = {untracked int32 input = 10}
-    
-    
-    
-    
-#    source = PoolSource
-#    {
-#        untracked vstring fileNames = {"file:h_zz_4mu.root"}
-#        }
-    
-    # include filter_defaults.cfi
-#    include "VLF_Fill/Tyrion/data/filter_defaults_cfi.py"
-    #replace trackFilter.MinimalNumberOfTracks = 4
-    #replace trackFilter.MaximalNumberOfTracks = 4
-    
-    #
-    # write results out to file
-    #
-#   module Out = PoolOutputModule
-#   {
-#       untracked string fileName = "events-filtered.root"
-#       }
-#   
-#   endpath e =
-#   {
-#       VLFFilter,Out
-#       }
-#   }
