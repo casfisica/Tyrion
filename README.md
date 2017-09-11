@@ -4,9 +4,13 @@ EDMFilter
 To run the code:
 
 export SCRAM_ARCH=slc6_amd64_gcc530
+
 scram p -n VLF_Fill CMSSW CMSSW_8_1_0 #The first time
+
 cd VLF_Fill/src
+
 cmsenv
-git cms-init -q #The first time
-git cms-merge-topic casfisica:Tyrion
+
+git clone git@github.com:casfisica/Tyrion.git
+
 scram b
